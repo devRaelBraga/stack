@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  dailyusers:
+    build: ./services/dailyusers-service
+    image: dailyusers
+    ports:
+      - "3004:3004"
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+    networks:
+      - agent_network
+  retentions:
+    build: ./services/retentions-service
+    image: retentions
+    ports:
+      - "3006:3006"
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+    networks:
+      - agent_network
+  sessions:
+    build: ./services/sessions-service
+    image: sessions
+    ports:
+      - "3002:3002"
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+    networks:
+      - agent_network
+  versions:
+    build: ./services/versions-service
+    image: versions
+    ports:
+      - "3008:3008"
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+    networks:
+      - agent_network
+networks:
+  agent_network:
+    driver: overlay 
